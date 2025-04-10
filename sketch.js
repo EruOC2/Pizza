@@ -1,24 +1,41 @@
-let slices = 8; // Cambia este número si quieres diferentes rebanadas
+let slices = 8;
 
 function setup() {
-  createCanvas(900, 300);
-  background(255);
+  createCanvas(900, 600);
   noLoop();
-
-  // Posiciones x para cada pizza
-  let centers = [150, 450, 750];
-
-  // Dibujar las 3 pizzas
-  drawPizza(centers[0], 150, 100, slices, "point-slope");
-  drawPizza(centers[1], 150, 100, slices, "dda");
-  drawPizza(centers[2], 150, 100, slices, "bresenham");
+  drawPizzas();
 }
 
-function drawPizza(cx, cy, r, numSlices, method) {
-  // Dibuja la base de la pizza
+function updateSlices() {
+  slices = int(document.getElementById("sliceInput").value);
+  clear();
+  background(255);
+  drawPizzas();
+}
+
+function drawPizzas() {
+  background('#fffde7');
+
+  let centers = [
+    { x: 225, y: 200, label: "Punto-Pendiente 🔴" },
+    { x: 675, y: 200, label: "DDA 🟢" },
+    { x: 225, y: 500, label: "Bresenham 🔵" },
+    { x: 675, y: 500, label: "p5.js line() ⚫" },
+  ];
+
+  for (let i = 0; i < centers.length; i++) {
+    drawPizza(centers[i].x, centers[i].y, 100, slices, centers[i].label, i);
+  }
+}
+
+function drawPizza(cx, cy, r, numSlices, label, methodIndex) {
   stroke(0);
   noFill();
   circle(cx, cy, r * 2);
+  fill(0);
+  noStroke();
+  textAlign(CENTER);
+  text(label, cx, cy + r + 20);
 
   for (let i = 0; i < numSlices; i++) {
     let angle = TWO_PI * i / numSlices;
@@ -27,21 +44,25 @@ function drawPizza(cx, cy, r, numSlices, method) {
     let x2 = cx + r * cos(angle);
     let y2 = cy + r * sin(angle);
 
-    switch (method) {
-      case "point-slope":
+    switch (methodIndex) {
+      case 0:
         pointSlopeLine(x1, y1, x2, y2);
         break;
-      case "dda":
+      case 1:
         ddaLine(x1, y1, x2, y2);
         break;
-      case "bresenham":
+      case 2:
         bresenhamLine(x1, y1, x2, y2);
+        break;
+      case 3:
+        stroke(0);
+        line(x1, y1, x2, y2);
         break;
     }
   }
 }
 
-// Algoritmo Punto-Pendiente (y = mx + b)
+// Método 1: Punto-Pendiente
 function pointSlopeLine(x0, y0, x1, y1) {
   stroke('red');
   let dx = x1 - x0;
@@ -70,7 +91,7 @@ function pointSlopeLine(x0, y0, x1, y1) {
   }
 }
 
-// Algoritmo DDA
+// Método 2: DDA
 function ddaLine(x0, y0, x1, y1) {
   stroke('green');
   let dx = x1 - x0;
@@ -90,7 +111,7 @@ function ddaLine(x0, y0, x1, y1) {
   }
 }
 
-// Algoritmo Bresenham
+// Método 3: Bresenham
 function bresenhamLine(x0, y0, x1, y1) {
   stroke('blue');
 
