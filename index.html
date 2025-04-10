@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Pizza</title>
+    <meta charset="UTF-8" />
+    <title>Pizza Slicer 🍕</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
     <style>
       body {
         margin: 0;
-        background: #fff8e1;
+        padding: 20px;
+        background: #fffde7;
         font-family: sans-serif;
+        text-align: center;
+      }
+
+      canvas {
+        display: block;
+        margin: 20px auto;
+      }
+
+      input, button {
+        padding: 10px;
+        font-size: 16px;
+        margin: 10px;
       }
     </style>
   </head>
   <body>
+    <h1>Simulador de Rebanadas de Pizza 🍕</h1>
+    <p>¿En cuántas rebanadas quieres cortar la pizza?</p>
+    <input type="number" id="sliceInput" value="8" min="1" />
+    <button onclick="updateSlices()">Cortar 🍕</button>
     <script src="sketch.js"></script>
   </body>
 </html>
+
