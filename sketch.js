@@ -7,9 +7,16 @@ function setup() {
 }
 
 function updateSlices() {
-  slices = int(document.getElementById("sliceInput").value);
+  let inputVal = int(document.getElementById("sliceInput").value);
+  if (isNaN(inputVal) || inputVal < 1) {
+    alert("Por favor ingresa un número válido de rebanadas (1 o más).");
+    return;
+  }
+
+  slices = inputVal;
+
   clear();
-  background(255);
+  background('#fffde7');
   drawPizzas();
 }
 
@@ -137,3 +144,4 @@ function bresenhamLine(x0, y0, x1, y1) {
     }
   }
 }
+
