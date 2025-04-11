@@ -2,8 +2,13 @@ let slices = 8;
 
 function setup() {
   createCanvas(900, 600);
-  noLoop();
+  background('#fffde7');
+}
+
+function draw() {
+  background('#fffde7');
   drawPizzas();
+  noLoop(); // Solo se redibuja una vez luego de presionar el botón
 }
 
 function updateSlices() {
@@ -14,15 +19,10 @@ function updateSlices() {
   }
 
   slices = inputVal;
-
-  clear();
-  background('#fffde7');
-  drawPizzas();
+  loop(); // Fuerza que draw() se vuelva a ejecutar
 }
 
 function drawPizzas() {
-  background('#fffde7');
-
   let centers = [
     { x: 225, y: 200, label: "Punto-Pendiente 🔴" },
     { x: 675, y: 200, label: "DDA 🟢" },
@@ -69,7 +69,6 @@ function drawPizza(cx, cy, r, numSlices, label, methodIndex) {
   }
 }
 
-// Método 1: Punto-Pendiente
 function pointSlopeLine(x0, y0, x1, y1) {
   stroke('red');
   let dx = x1 - x0;
@@ -98,7 +97,6 @@ function pointSlopeLine(x0, y0, x1, y1) {
   }
 }
 
-// Método 2: DDA
 function ddaLine(x0, y0, x1, y1) {
   stroke('green');
   let dx = x1 - x0;
@@ -118,7 +116,6 @@ function ddaLine(x0, y0, x1, y1) {
   }
 }
 
-// Método 3: Bresenham
 function bresenhamLine(x0, y0, x1, y1) {
   stroke('blue');
 
@@ -144,4 +141,5 @@ function bresenhamLine(x0, y0, x1, y1) {
     }
   }
 }
+
 
